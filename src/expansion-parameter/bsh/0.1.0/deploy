@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# Reference: https://www.gnu.org/software/bash/manual/html_node/Shell-Parameter-Expansion.html
+source ./bin/dev-set || { echo 'dev-set:Error: unable to load dev environment' 2>&1 && exit 1; }
+source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-txt.bash" &&
+  source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-fmt.bash" &&
+  source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-fs.bash" &&
+  source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-core.bash" || exit 1
+
+function my_initialize() {
+  bl64_dbg_app_show_function
+  dev_base_task_initialize
+}
+
+bl64_lib_script_version_set '1.0.0'
+bl64_msg_help_about_set 'Shell Expansion: Parameter'
+dev_base_initialize && my_initialize || exit $?
+
+bl64_msg_show_batch_start "$BL64_SCRIPT_ID"
+. "${DEV_ENV_IAC64_PATH_SRC_MODULE}/match.bash"
+bl64_msg_show_batch_finish $? "$BL64_SCRIPT_ID"
